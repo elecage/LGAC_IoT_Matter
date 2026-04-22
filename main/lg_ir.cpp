@@ -22,6 +22,7 @@ constexpr uint16_t kBitMarkUs = 560;
 constexpr uint16_t kOneSpaceUs = 1690;
 constexpr uint16_t kZeroSpaceUs = 560;
 constexpr uint16_t kFooterMarkUs = 560;
+constexpr uint16_t kFooterSpaceUs = 10000;
 constexpr uint8_t kLgBits = 28;
 
 rmt_channel_handle_t s_channel = nullptr;
@@ -119,7 +120,7 @@ static size_t encode_symbols(uint32_t frame, std::array<rmt_symbol_word_t, kLgBi
         symbols[idx++] = symbol(kBitMarkUs, one ? kOneSpaceUs : kZeroSpaceUs);
     }
 
-    symbols[idx++] = symbol(kFooterMarkUs, 0);
+    symbols[idx++] = symbol(kFooterMarkUs, kFooterSpaceUs);
     return idx;
 }
 
@@ -184,7 +185,7 @@ esp_err_t send(const State &new_state)
     ESP_RETURN_ON_ERROR(rmt_transmit(s_channel, s_copy_encoder, symbols.data(),
                                      symbol_count * sizeof(rmt_symbol_word_t), &tx_config),
                         TAG, "transmit LG frame");
-    return rmt_tx_wait_all_done(s_channel, pdMS_TO_TICKS(200));
+    return rmt_tx_wait_all_done(s_channel, pdMS_TO_TICKS(1000));
 }
 
 } // namespace lgac

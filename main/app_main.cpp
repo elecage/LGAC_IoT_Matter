@@ -253,6 +253,8 @@ extern "C" void app_main()
     onoff_config.on_off = false;
     cluster_t *onoff_cluster = cluster::on_off::create(endpoint, &onoff_config, CLUSTER_FLAG_SERVER);
     abort_on_failure(onoff_cluster != nullptr, "Failed to create on/off cluster");
+    cluster::on_off::command::create_on(onoff_cluster);
+    cluster::on_off::command::create_toggle(onoff_cluster);
 
     cluster::fan_control::config_t fan_config;
     fan_config.fan_mode = 5;
