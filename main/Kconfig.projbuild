@@ -1,0 +1,27 @@
+menu "LG Whisen IR AC"
+
+config LG_IR_TX_GPIO
+    int "IR transmitter GPIO"
+    default 4
+    help
+        GPIO connected to the IR LED driver transistor. GPIO4 is a practical
+        default for many ESP32-C3 Super Mini breakout boards.
+
+config LG_IR_CARRIER_HZ
+    int "IR carrier frequency"
+    default 38000
+
+config LG_IR_DEFAULT_TEMP_C
+    int "Default cooling setpoint in Celsius"
+    default 24
+    range 18 30
+
+config LG_IR_DEFAULT_FAN
+    int "Default fan mode"
+    default 5
+    range 0 5
+    help
+        0 auto, 1 low, 2 medium, 3 high, 4 powerful, 5 natural.
+
+endmenu
+
